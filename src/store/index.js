@@ -3,16 +3,27 @@ import axios from 'axios'
 
 export default createStore({
   state: {
-    products:[]
+    products:[],
+    cart:[]
   },
   getters: {
     PRODUCTS(state){
       return state.products;
+    },
+    CART(state){
+      return state.cart;
     }
   },
   mutations: {
     SET_PRODUCTS_FROM_API: (state, products)=>{
       state.products = products
+      // state.products.push(products)
+    },
+    SET_CART: (state, product)=>{
+      state.cart.push(product)
+    },
+    REMOVE_FROM_CART:(state, index)=>{
+      state.cart.splice(index, 1);
     }
   },
   actions: {
@@ -28,6 +39,12 @@ export default createStore({
         console.log(error);
         return error;
       })
+    },
+    ADD_TO_CART({commit}, product){
+      commit('SET_CART', product)
+    },
+    DELETE_FROM_CART({commit}, index){
+      commit('REMOVE_FROM_CART',index)
     }
   },
   modules: {
